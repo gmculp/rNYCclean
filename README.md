@@ -3,7 +3,7 @@ R package for cleaning NYC addresses
 
 ## Overview
 
-rNYCclean is an R package for cleaning New York City addresses that fail to geocode with the NYC Department of City Planning's (DCP) Geosupport software. Functions are available to clean addresses through string replacement, partial string matching, sequential string splitting, and spell checking.  Parallel versions of most functions are also available.  The package's datasets were constructed from DCP's PAD (Property Address Directory) and SND (Street Name Dictionary).
+`rNYCclean` is an R package for cleaning New York City addresses that fail to geocode with the NYC Department of City Planning's (DCP) Geosupport software. Functions are available to clean addresses through string replacement, partial string matching, sequential string splitting, and spell checking.  Parallel versions of most functions are also available.  The package's datasets were constructed from DCP's PAD (Property Address Directory) and SND (Street Name Dictionary).
 
 ## Installation
 
@@ -111,7 +111,7 @@ head(df1)
  
  ## Updating the package's datasets
  
- The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's raw directory.  Tinkering with an installed package is often frowned upon but if something goes worng, you can always reinstall the package from GitHub.
+ The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's `raw` directory.  Tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
   ``` r
 # get path of function which generates package's datasets
 func_path <- system.file("raw", "build_rNYCclean_data.R", package = "rNYCclean")
