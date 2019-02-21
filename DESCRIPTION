@@ -1,0 +1,15 @@
+Package: rNYCclean
+Title: A package to clean NYC addresses
+Version: 1.9.1
+Authors@R: person("GM", "Culp", email = "gculp@health.nyc.gov", role = c("aut", "cre"))
+Description: This package utilizes NYC Department of City Planning's Property Address Directory (PAD) and Street Name Dictionary (SNL) to clean NYC addresses.
+Depends: R (>= 3.4.2)
+Imports:
+    parallel,
+    data.table,
+    stringi,
+    stringr
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
