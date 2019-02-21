@@ -3,7 +3,7 @@ R package for cleaning NYC addresses
 
 ## Overview
 
-`rNYCclean` is an R package for cleaning New York City addresses that fail to geocode with the NYC Department of City Planning's (DCP) Geosupport software. Functions are available to clean addresses through string replacement, partial string matching, sequential string splitting, and spell checking.  Parallel versions of most functions are also available.  The package's datasets were constructed from DCP's PAD (Property Address Directory) and SND (Street Name Dictionary).
+`rNYCclean` is an R package for cleaning New York City addresses that fail to geocode with the NYC Department of City Planning's (DCP) Geosupport software. Functions are available to clean addresses through string replacement, partial string matching, sequential string splitting, and spell checking.  Parallel versions of most functions are also available.  The package's datasets were constructed from DCP PAD (Property Address Directory) and SND (Street Name Dictionary).
 
 ## Installation
 
@@ -16,7 +16,7 @@ devtools::install_github("gmculp/rNYCclean", force = TRUE)
 # install.packages("withr")
 withr::with_libpaths(new = this.libPath, devtools::install_github("gmculp/rNYCclean", force = TRUE))
 
-# You can opt out of installing the latest version of the dependency packages (i.e., data.table, stringi, stringr)  
+# You can opt out of installing the latest version of the dependency packages (i.e., data.table, stringi, stringr, parallel, httr)  
 devtools::install_github("gmculp/rNYCclean", force = TRUE, type="source", dependencies=FALSE)
 ```
 
@@ -24,7 +24,7 @@ devtools::install_github("gmculp/rNYCclean", force = TRUE, type="source", depend
 
 Here are some examples of the various ways to clean NYC addresses that fail to geocode with DCP Geopsupport software.
 
-Perform a substring match between a data frame of NYC addresses and DCP's PAD addresses: 
+Perform a substring match between a data frame of NYC addresses and DCP PAD addresses: 
 ``` r
 # create a data frame of addresses
 ADDR <- c("80 CENTRE","125 WORTH S","42 09 28 S","253 BROADW",
@@ -37,7 +37,7 @@ u_id <- 1:length(ADDR)
 df = data.frame(u_id, ADDR, BORO_CODE, ZIP_CODE)
 
 # get PAD address using borough code
-#NOTE: slow due to expansive search area (entire borough)
+# NOTE: slow due to expansive search area (entire borough)
 system.time({df1 <- pad_addr(df,"ADDR.pad","ADDR","BORO_CODE","boro_code")})
 
 # preview records
@@ -50,7 +50,7 @@ system.time({df2 <- pad_addr(df,"ADDR.pad","ADDR","ZIP_CODE","zip_code")})
 # preview records
 head(df2)
 ```
-Perform string replacement cleaning on a data frame of NYC addresses with a look-up dataset of locations constructed from DCP's PAD and SND datasets:
+Perform string replacement cleaning on a data frame of NYC addresses with a look-up dataset of locations constructed from DCP PAD and SND datasets:
 ``` r
 # create a data frame of addresses
 ADDR1 <- c("80 CENTRE S","125 WORTH S","42-09 28 ST",
@@ -91,7 +91,7 @@ df1 <- seqsplt_addr(in_df = df, new_addr_col_name = "ADDR.seqsplt",
 # preview records
 head(df1)
  ```
-Perform a spell check on a data frame of NYC addresses with a street name dictionary built from DCP's PAD and SND datasets:
+Perform a spell check on a data frame of NYC addresses with a street name dictionary built from DCP PAD and SND datasets:
  ``` r
 # create a data frame of addresses
 ADDR <- c("1212 AMESTERDAM AVEN","253 BROADWY",
@@ -111,8 +111,8 @@ head(df1)
  
  ## Updating the package's datasets
  
- The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's `raw` directory.  Tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
-  ``` r
+ The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's `raw` directory.  Because the process of building these files involves comparisons of millions of addresses, this could take a while (e.g., ~20 minutes).  This process utilizes parallel processing using the `parallel` package.  The more cores available, the faster the process goes. Tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
+  ``` r  
 # get path of function which generates package's datasets
 func_path <- system.file("raw", "build_rNYCclean_data.R", package = "rNYCclean")
   
@@ -126,7 +126,11 @@ my_version <- "16d"
 my_dir <- file.path(find.package("rNYCclean"),"data")
 
 # specify the number of cores to use for parallel processing
+# the below line of code will allocate all but one of the available cores
 my_cores <- parallel::detectCores() - 1 
+
+# if you are on a server environment shared by multiple users, use the below line of code 
+# my_cores <- floor(parallel::detectCores()/20)
 
 # build files and save to package's data direcotry
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=TRUE)
