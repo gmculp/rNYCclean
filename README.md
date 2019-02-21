@@ -16,7 +16,8 @@ devtools::install_github("gmculp/rNYCclean", force = TRUE)
 # install.packages("withr")
 withr::with_libpaths(new = this.libPath, devtools::install_github("gmculp/rNYCclean", force = TRUE))
 
-# You can opt out of installing the latest version of the dependency packages (i.e., data.table, stringi, stringr, parallel, httr)  
+# Do you already have the data.table, stringi, stringr, parallel, httr packages installed?
+# If so, you can opt out of installing the latest version of the dependency packages  
 devtools::install_github("gmculp/rNYCclean", force = TRUE, type="source", dependencies=FALSE)
 ```
 
