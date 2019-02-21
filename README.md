@@ -112,7 +112,7 @@ head(df1)
  
  ## Updating the package's datasets
  
- The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's `raw` directory.  Because the process of building these files involves comparisons of millions of addresses, this could take a while (e.g., ~20 minutes).  This process utilizes parallel processing using the `parallel` package.  The more cores available, the faster the process goes. Tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
+ The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's `raw` directory.  Because the process of building these files involves comparisons of millions of addresses, this could take a while (e.g., ~20 minutes).  This process utilizes parallel processing using the `parallel` package.  The more cores available, the faster the process goes.  Notice that the `data` directory for the package's GitHub project contains a lazyload database (Rdata.rdb and Rdata.rdx).  This is because the rda versions of these files were too large to host on GithUb.  If you do want to generate rda versions of the files, check out the last part of the below code snippet.  Finally, tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
   ``` r  
 # get path of function which generates package's datasets
 func_path <- system.file("raw", "build_rNYCclean_data.R", package = "rNYCclean")
@@ -133,13 +133,12 @@ my_cores <- parallel::detectCores() - 1
 # if you are on a server environment shared by multiple users, use the below line of code 
 # my_cores <- floor(parallel::detectCores()/20)
 
-# build files and save to package's data direcotry
+# build files and save to package's data directory as a lazyload database
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=TRUE)
-
-# you can also build the datasets as RDA files for use outside of the package
 
 # specify destination of dataset files as local directory
 my_dir <- "/home/address_cleaning/datasets"
 
+# you can also build the datasets as RDA files for use outside of the package
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=FALSE)
   ```
