@@ -119,12 +119,22 @@ func_path <- system.file("raw", "build_rNYCclean_data.R", package = "rNYCclean")
 # load function  
 source(func_path)
 
-# specify destination of dataset files
-dest_dir <- file.path(find.package("rNYCclean"),"data")
+# specify the desired version of DCP PAD
+my_version <- "16d"
+
+# specify destination of dataset files as package's data directory
+my_dir <- file.path(find.package("rNYCclean"),"data")
+
+# specify the number of cores to use for parallel processing
+my_cores <- parallel::detectCores() - 1 
 
 # build files and save to package's data direcotry
-build_rNYCclean_data("17D",dest_dir,10,as_rdb=TRUE)
+build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=TRUE)
 
 # you can also build the datasets as RDA files for use outside of the package
-build_rNYCclean_data("17D","/home/address_cleaning/data",10,as_rdb=FALSE)
+
+# specify destination of dataset files as local directory
+my_dir <- "/home/address_cleaning/datasets"
+
+build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=FALSE)
   ```
