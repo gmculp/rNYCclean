@@ -3,22 +3,26 @@ R package for cleaning NYC addresses
 
 ## Overview
 
-`rNYCclean` is an R package for cleaning New York City addresses that fail to geocode with the NYC Department of City Planning's (DCP) Geosupport software. Functions are available to clean addresses through string replacement, partial string matching, sequential string splitting, and spell checking.  Parallel versions of most functions are also available.  The package's datasets were constructed from DCP PAD (Property Address Directory) and SND (Street Name Dictionary).
+`rNYCclean` is an R package for cleaning New York City addresses that fail to geocode with the NYC Department of City Planning's (DCP) Geosupport software. Functions are available to clean addresses through string replacement, partial string matching, sequential string splitting, and spell checking.  Parallel versions of most functions are also available.  The rNYCclean package's datasets were constructed from DCP PAD (Property Address Directory) and SND (Street Name Dictionary).
 
 ## Installation
 
 ``` r
-# To install this package from GitHub:
+# To install the rNYCclean package from GitHub:
 # install.packages("devtools")
 devtools::install_github("gmculp/rNYCclean", force = TRUE)
 
-# You can also install the package to a specific library
+# You can also install the rNYCclean package to a specific library
 # install.packages("withr")
 withr::with_libpaths(new = this.libPath, devtools::install_github("gmculp/rNYCclean", force = TRUE))
 
 # Do you already have the data.table, stringi, stringr, parallel, httr packages installed?
 # If so, you can opt out of installing the latest version of the dependency packages  
 devtools::install_github("gmculp/rNYCclean", force = TRUE, type="source", dependencies=FALSE)
+
+# you can generate a PDF of the manual using devtools
+my_dir <- "/home/package_manuals" # specify destination for PDF
+devtools:::build_manual(pkg = find.package("rNYCclean"), path = my_dir)
 ```
 
 ## Usage
@@ -36,6 +40,9 @@ ZIP_CODE <- c('10013','10013','11101','10007','11217','10013',
     '11222','11249','10003','10014')
 u_id <- 1:length(ADDR)
 df = data.frame(u_id, ADDR, BORO_CODE, ZIP_CODE)
+
+# get version of DCP PAD used to build rNYCclean package data
+rNYCclean::pad_version
 
 # get PAD address using borough code
 # NOTE: slow due to expansive search area (entire borough)
@@ -61,6 +68,9 @@ BORO_CODE <- c(rep(1,length(ADDR1)-1),3)
 u_id <- 1:length(ADDR1)
 df = data.frame(u_id, ADDR1, ADDR2, BORO_CODE)
 
+# get version of DCP PAD used to build rNYCclean package data
+rNYCclean::pad_version
+
 # one address input column
 df1 <- regex_addr(in_df = df, new_addr_col_name = "regex.ADDR", 
     addr1_col_name = "ADDR1")
@@ -84,6 +94,9 @@ BORO_CODE <- c(1,1,4)
 u_id <- 1:length(ADDR)
 df = data.frame(u_id, ADDR, BORO_CODE)
 
+# get version of DCP PAD used to build rNYCclean package data
+rNYCclean::pad_version
+
 # split address column into sequential combinations
 df1 <- seqsplt_addr(in_df = df, new_addr_col_name = "ADDR.seqsplt",
     id_col_name = "u_id", addr_col_name = "ADDR", 
@@ -103,6 +116,9 @@ ZIP_CODE <- c("10027","10007","10468","11217")
 u_id <- 1:length(ADDR)
 df = data.frame(u_id, ADDR, CITY, STATE, ZIP_CODE)
 
+# get version of DCP PAD used to build rNYCclean package data
+rNYCclean::pad_version
+
 # spell check address column using zip code
 df1 <- splchk_addr(df,"ADDR.splchk","ADDR","ZIP_CODE","zip_code")
 
@@ -110,20 +126,26 @@ df1 <- splchk_addr(df,"ADDR.splchk","ADDR","ZIP_CODE","zip_code")
 head(df1)
  ```
  
- ## Updating the package's datasets
+ ## Updating the rNYCclean package's datasets
  
- The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed package's datasets with another version of PAD and SND, you can use the files provided in the package's `raw` directory.  Because the process of building these files involves comparisons of millions of addresses, this could take a while (e.g., ~20 minutes).  This process utilizes parallel processing using the `parallel` package.  The more cores available, the faster the process goes.  Notice that the `data` directory for the package's GitHub project contains a lazyload database (Rdata.rdb and Rdata.rdx).  This is because the rda versions of these files were too large to host on GithUb.  If you do want to generate rda versions of the files, check out the last part of the below code snippet.  Finally, tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
+ The datasets on GitHub were built using the 19a versions of DCP's PAD and SND.  If you wish to rebuild the installed rNYCclean package's datasets with another version of PAD and SND, you can use the files provided in the rNYCclean package's `raw` directory.  Because the process of building these files involves comparisons of millions of addresses, this could take a while (e.g., ~20 minutes).  This process utilizes parallel processing using the `parallel` package.  The more cores available, the faster the process goes.  Notice that the `data` directory for the rNYCclean package's GitHub project contains a lazyload database (Rdata.rdb and Rdata.rdx).  This is because the rda versions of these files were too large to host on GithUb.  If you do want to generate rda versions of the files, check out the last part of the below code snippet.  Finally, tinkering with an installed package is often frowned upon but if something does go worng, you can always reinstall the package from GitHub.
   ``` r  
-# get path of function which generates package's datasets
+# make sure rNYCclean namespace is unloaded 
+unloadNamespace("rNYCclean")
+  
+# get path of function which generates rNYCclean package's datasets
 func_path <- system.file("raw", "build_rNYCclean_data.R", package = "rNYCclean")
   
 # load function  
 source(func_path)
 
+# get version of DCP PAD used to build rNYCclean package data
+rNYCclean::pad_version
+
 # specify the desired version of DCP PAD
 my_version <- "16d"
 
-# specify destination of dataset files as package's data directory
+# specify destination of dataset files as rNYCclean package's data directory
 my_dir <- file.path(find.package("rNYCclean"),"data")
 
 # specify the number of cores to use for parallel processing
@@ -133,12 +155,12 @@ my_cores <- parallel::detectCores() - 1
 # if you are on a server environment shared by multiple users, use the below line of code 
 # my_cores <- floor(parallel::detectCores()/20)
 
-# build files and save to package's data directory as a lazyload database
+# build files and save to rNYCclean package's data directory as a lazyload database
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=TRUE)
 
 # specify destination of dataset files as local directory
 my_dir <- "/home/address_cleaning/datasets"
 
-# you can also build the datasets as RDA files for use outside of the package
+# you can also build the datasets as RDA files for use outside of the rNYCclean package
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=FALSE)
   ```
