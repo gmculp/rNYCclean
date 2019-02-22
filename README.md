@@ -158,9 +158,7 @@ my_cores <- parallel::detectCores() - 1
 # build files and save to rNYCclean package's data directory as a lazyload database
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=TRUE)
 
-# specify destination of dataset files as local directory
-my_dir <- "/home/address_cleaning/datasets"
-
 # you can also build the datasets as RDA files for use outside of the rNYCclean package
+my_dir <- "/home/address_cleaning/datasets" # destination as local directory
 build_rNYCclean_data(my_version,my_dir,my_cores,as_rdb=FALSE)
   ```
