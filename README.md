@@ -1,5 +1,5 @@
 # rNYCclean
-R package for cleaning NYC addresses
+R package for cleaning NYC addresses that failed to geocode using NYC Department of City Planning's Geosupport software.
 
 ## Overview
 
