@@ -143,7 +143,7 @@ source(func_path)
 rNYCclean::pad_version
 
 # specify the desired version of DCP PAD
-my_version <- "16d"
+my_version <- "20b"
 
 # specify destination of dataset files as rNYCclean package's data directory
 my_dir <- file.path(find.package("rNYCclean"),"data")
