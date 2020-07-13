@@ -287,7 +287,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	df_rng_subB[,hhnd := as.character(hhnd0)]
 	df_rng_subC[,lhnd := as.character(hhnd0)]
 	
-	df_rng_sub <- unique(rbindlist(list(df_rng_subA[, colsdt, with=FALSE],df_rng_subB[, colsdt, with=FALSE],df_rng_subC[, colsdt, with=FALSE]),use.names=TRUE,fill=TRUE))
+	df_rng_sub <- unique(rbindlist(list(df_rng_subA[, colsdt, with=FALSE],df_rng_subB[, colsdt, with=FALSE],df_rng_subC[, colsdt, with=FALSE]),use.names=TRUE))
 	
 	rm(df_rng_subA,df_rng_subB,df_rng_subC)
 	
@@ -342,9 +342,9 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	df_rng_subB[,hnd := lhnd]
 	df_rng_subC[,lhnd := paste0(lhnd0,"A")]
 	
-	df_reserve <- rbindlist(list(df_reserve,df_rng_subB[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE,fill=TRUE)
+	df_reserve <- rbindlist(list(df_reserve,df_rng_subB[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE)
 	
-	df_rng_sub <- rbindlist(list(df_rng_sub[brk_rule==0],df_rng_subC),use.names=TRUE,fill=TRUE)
+	df_rng_sub <- rbindlist(list(df_rng_sub[brk_rule==0],df_rng_subC),use.names=TRUE)
 	
 	df_rng_sub <- df_rng_sub[,colsdt,with=FALSE]
 	
@@ -365,7 +365,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	
 	df_rng_subB[,hnd := lhnd]
 	
-	df_reserve <- rbindlist(list(df_reserve,df_rng_subB[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE,fill=TRUE)
+	df_reserve <- rbindlist(list(df_reserve,df_rng_subB[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE)
 	
 	df_rng_subC[,iter := ifelse(lcontpar != "" | hcontpar != "",1,2)]
 
@@ -379,7 +379,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	
 	df_rng_sub[,brk_rule := NULL]
 	
-	df_rng_sub <- rbindlist(list(df_rng_sub,df_rng_subC),use.names=TRUE,fill=TRUE)
+	df_rng_sub <- rbindlist(list(df_rng_sub,df_rng_subC),use.names=TRUE)
 	
 	rm(df_rng_subB,df_rng_subC)
 	
@@ -394,7 +394,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	df_rng_subA <- df_rng_sub[brk_rule==1]
 	df_rng_subA[,hnd := lhnd]
 	
-	df_reserve <- rbindlist(list(df_reserve,df_rng_subA[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE,fill=TRUE)
+	df_reserve <- rbindlist(list(df_reserve,df_rng_subA[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE)
 	rm(df_rng_subA)
 	
 	df_rng_sub <- df_rng_sub[brk_rule==0]
@@ -418,7 +418,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	
 	df_rng_subA[,hnd := paste0(lhnd0,myLetters[match(lhnd3a, myLetters) + (Indx-1)])]
 	
-	df_reserve <- rbindlist(list(df_reserve,df_rng_subA[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE,fill=TRUE)
+	df_reserve <- rbindlist(list(df_reserve,df_rng_subA[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE)
 	rm(df_rng_subA)
 	
 	df_rng_sub <- df_rng_sub[brk_rule==0]
@@ -448,7 +448,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	
 	df_rng_subA[,hnd := paste0(as.character(lhnd1),"-", ifelse(new_lhnd2 < 10, "0",""),as.character(new_lhnd2))]
 	
-	df_reserve <- rbindlist(list(df_reserve,df_rng_subA[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE,fill=TRUE)
+	df_reserve <- rbindlist(list(df_reserve,df_rng_subA[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE)
 	rm(df_rng_subA)
 	
 	df_rng_sub <- df_rng_sub[brk_rule==0]
@@ -472,7 +472,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	
 	df_rng_sub[,hnd := as.character(lhnd1 + (row_denom*(Indx-1)))]
 	
-	df_reserve <- rbindlist(list(df_reserve,df_rng_sub[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE,fill=TRUE)
+	df_reserve <- rbindlist(list(df_reserve,df_rng_sub[, c('hnd','b7sc','stname','zipcode','boro',"bin","bbl"), with=FALSE]),use.names=TRUE)
 	rm(df_rng_sub)
 	#cat(paste0(nrow(df_reserve),"\n"))
 	
@@ -487,7 +487,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	df_rng_sub[,hnd := hhnd]
 	df_rng_sub[,hhnd := NULL]
 	
-	df_reserve <- unique(rbindlist(list(df_reserve, df_rng_sub),use.names=TRUE,fill=TRUE))
+	df_reserve <- unique(rbindlist(list(df_reserve, df_rng_sub),use.names=TRUE))
 	
 	rm(df_rng_sub)
 	
@@ -505,7 +505,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	###prepare alternate street name bank###
 	########################################
 	
-	df_snd_sub <- unique(rbindlist(list(df_snd[,c("B7SC","stname"),with=FALSE],df_snd[,c("B7SC","full_stname"),with=FALSE])))
+	df_snd_sub <- unique(rbindlist(list(df_snd[,c("B7SC","stname"),with=FALSE],df_snd[,c("B7SC","full_stname"),with=FALSE]),use.names=FALSE))
 	
 	df_snd_sub[,stname2 := stname]
 	
@@ -523,11 +523,12 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 		return(temp.dt)
 			
 	}))
+	
 	df_snd_sub[,stname2 := NULL]
 	df_snd_sub2 <- melt(df_snd_sub2, id.vars = c("B7SC"))
 	df_snd_sub2[,variable := NULL]
 	setnames(df_snd_sub2, "value", "stname")
-	df_snd_sub <- unique(rbindlist(list(df_snd_sub,df_snd_sub2),use.names=TRUE,fill=TRUE))
+	df_snd_sub <- unique(rbindlist(list(df_snd_sub,df_snd_sub2),use.names=TRUE))
 	rm(df_snd_sub2)
 
 	NYC_address_bank <- merge(df_reserve, df_snd_sub, by.x="b7sc", by.y="B7SC", allow.cartesian=TRUE)
