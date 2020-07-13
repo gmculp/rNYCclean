@@ -287,7 +287,7 @@ build_NYC_address_bank_and_street_dictionaries <- function(df_bobaadr,df_snd) {
 	df_rng_subB[,hhnd := as.character(hhnd0)]
 	df_rng_subC[,lhnd := as.character(hhnd0)]
 	
-	df_rng_sub <- unique(rbindlist(list(df_rng_subA[, colsdt, with=FALSE],df_rng_subB[, colsdt, with=FALSE],df_rng_subC[, colsdt, with=FALSE]),use.names=TRUE))
+	df_rng_sub <- unique(rbindlist(list(df_rng_subA[, colsdt, with=FALSE],df_rng_subB[, colsdt, with=FALSE],df_rng_subC[, colsdt, with=FALSE]),use.names=TRUE,fill=TRUE))
 	
 	rm(df_rng_subA,df_rng_subB,df_rng_subC)
 	
